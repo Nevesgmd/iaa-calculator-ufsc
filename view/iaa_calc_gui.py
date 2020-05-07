@@ -58,8 +58,8 @@ class HomePage(Screen):
         gap = -0.07
         for i, placeholder in enumerate(placeholders):
             text_input = TextInput(id='text_input_'+str(i),
-                                   font_size=30,
-                                   size_hint=(0.6, 0.07),
+                                   font_size=30-(len(placeholders)-5)*3.1,
+                                   size_hint=(0.6, 0.35/len(placeholders)),
                                    background_normal='atlas://data/images/defaulttheme/textinput_active',
                                    border=(4, 4, 4, 4),
                                    multiline=False,
@@ -69,7 +69,7 @@ class HomePage(Screen):
                                    write_tab=False
                                    )
             self.add_widget(text_input)
-            gap -= 0.07
+            gap -= 0.35/len(placeholders)
 
 
 class WindowManager(ScreenManager):
