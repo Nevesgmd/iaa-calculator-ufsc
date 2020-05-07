@@ -1,6 +1,6 @@
 WindowManager:
     LoginPage:
-    SecondWindow:
+    HomePage:
 
 <TextInput>:
     font_size: 30
@@ -11,7 +11,6 @@ WindowManager:
 <Button>:
     font_size: 40
     color: 1, 1, 1, 1
-    background_color: (44/255, 44/255, 44/255, 0.8)
     border: (4, 4, 4, 4)
 
 
@@ -32,6 +31,7 @@ WindowManager:
             id: login
             pos_hint: {'x': 0.2, 'top':0.47}
             multiline: False
+            write_tab: False
             cursor_color: (44/255, 44/255, 44/255, 0.8)
             hint_text: 'idUFSC, Matrícula, E-mail, CPF, ou Passaporte'
 
@@ -39,24 +39,47 @@ WindowManager:
             id: password
             pos_hint: {'x': 0.2, 'top':0.4}
             multiline: False
+            write_tab: False
             cursor_color: (44/255, 44/255, 44/255, 0.8)
             password: True
             hint_text: 'Senha'
         Button:
             size_hint: 0.6, 0.1
+            background_color: (44/255, 44/255, 44/255, 0.8)
             pos_hint: {'x': 0.2, 'top':0.33}
             text: 'Entrar'
             on_release:
                 root.return_values()
-                app.root.current = "second"
+                app.root.current = "home"
                 root.manager.transition.direction = "left"
+                root.manager.get_screen('home').display_student_name('Gabriel Medeiros das Neves')
+                root.manager.get_screen('home').show_current_indexes([8.27, 8.00, 8.27])
+                root.manager.get_screen('home').create_x_text_inputs(['Geração de Idéias e Criatividade em Informática', 'Programação Econômica e Financeira', 'Estruturas de Dados', 'Programação para Web', 'Técnicas Estatísticas de Predição'])
 
+<HomePage>:
+    name: "home"
 
-<SecondWindow>:
-    name: "second"
+    Label:
+        text: 'Possíveis notas'
+        font_size: 35
+        color: (44/255, 44/255, 44/255, 0.8)
+        pos_hint: {'x': 0, 'top': 1.17}
 
     Button:
-        text: "Go Back"
+        background_color: (44/255, 44/255, 44/255, 0.8)
+        pos_hint: {'x': 0.2, 'top':0.27}
+        text: 'Sair'
+        size_hint: 0.3, 0.1
         on_release:
             app.root.current = "login"
             root.manager.transition.direction = "right"
+
+    Button:
+        size_hint: 0.3, 0.1
+        background_color: (93/255, 160/255, 103/255, 0.8)
+        pos_hint: {'x': 0.5, 'top':0.27}
+        text: 'Calcular'
+        on_release:
+            root.create_x_text_inputs(['Geração de Idéias e Criatividade em Informática', 'Programação Econômica e Financeira', 'Estruturas de Dados', 'Programação para Web', 'Técnicas Estatísticas de Predição'])
+            root.display_student_name('Gabriel Medeiros das Neves')
+            root.show_current_indexes([8.27, 8.00, 8.27])

@@ -23,6 +23,7 @@ class ControllerStudent:
         form["password"].value = passwd
         browser.submit_form(form)
 
+        print(browser)
         return browser
 
     def get_student_data(self, browser):
