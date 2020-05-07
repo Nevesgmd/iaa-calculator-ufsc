@@ -1,0 +1,62 @@
+WindowManager:
+    LoginPage:
+    SecondWindow:
+
+<TextInput>:
+    font_size: 30
+    size_hint: 0.6, 0.07
+    background_normal: 'atlas://data/images/defaulttheme/textinput_active'
+    border: (4, 4, 4, 4)
+
+<Button>:
+    font_size: 40
+    color: 1, 1, 1, 1
+    background_color: (44/255, 44/255, 44/255, 0.8)
+    border: (4, 4, 4, 4)
+
+
+
+<LoginPage>:
+    name: "login"
+
+    FloatLayout:
+        Image:
+            source: '../images/project-logo.png'
+            size_hint: 0.9, 0.9
+            pos_hint: {'x': -0.05, 'top':1.15}
+        Image:
+            source: '../images/calculator-icon.png'
+            size_hint: 0.4, 0.4
+            pos_hint: {'x': 0.46, 'top':0.9}
+        TextInput:
+            id: login
+            pos_hint: {'x': 0.2, 'top':0.47}
+            multiline: False
+            cursor_color: (44/255, 44/255, 44/255, 0.8)
+            hint_text: 'idUFSC, Matrícula, E-mail, CPF, ou Passaporte'
+
+        TextInput:
+            id: password
+            pos_hint: {'x': 0.2, 'top':0.4}
+            multiline: False
+            cursor_color: (44/255, 44/255, 44/255, 0.8)
+            password: True
+            hint_text: 'Senha'
+        Button:
+            size_hint: 0.6, 0.1
+            pos_hint: {'x': 0.2, 'top':0.33}
+            text: 'Entrar'
+            on_release:
+                root.return_values()
+                app.root.current = "second"
+                root.manager.transition.direction = "left"
+
+
+<SecondWindow>:
+    name: "second"
+
+    Button:
+        text: "Go Back"
+        on_release:
+            app.root.current = "login"
+            root.manager.transition.direction = "right"
