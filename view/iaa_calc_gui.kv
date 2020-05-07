@@ -1,6 +1,7 @@
 WindowManager:
     LoginPage:
     HomePage:
+    NewIndexesPage:
 
 <TextInput>:
     font_size: 30
@@ -80,6 +81,23 @@ WindowManager:
         pos_hint: {'x': 0.5, 'top':0.27}
         text: 'Calcular'
         on_release:
+            app.root.current = "new_indexes"
+            root.manager.transition.direction = "left"
             root.create_x_text_inputs(['Geração de Idéias e Criatividade em Informática', 'Programação Econômica e Financeira', 'Estruturas de Dados', 'Programação para Web', 'Técnicas Estatísticas de Predição'])
-            root.display_student_name('Gabriel Medeiros das Neves')
-            root.show_current_indexes([8.27, 8.00, 8.27])
+
+<NewIndexesPage>:
+    name: 'new_indexes'
+    Label:
+        text: 'Índices Calculados'
+        font_size: 60
+        color: (24/255, 24/255, 24/255, 0.8)
+        pos_hint: {'x': 0, 'top': 1.2}
+
+    Button:
+        background_color: (44/255, 44/255, 44/255, 0.8)
+        pos_hint: {'x': 0.35, 'top':0.35}
+        text: 'Voltar'
+        size_hint: 0.3, 0.1
+        on_release:
+            app.root.current = "home"
+            root.manager.transition.direction = "right"

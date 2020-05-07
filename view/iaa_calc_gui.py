@@ -10,6 +10,29 @@ Window.minimum_width, Window.minimum_height = (700, 400)
 Window.maximum_width, Window.maximum_height = (1000, 700)
 
 
+class NewIndexesPage(Screen):
+    def __init__(self, **kwargs):
+        super(NewIndexesPage, self).__init__(**kwargs)
+        self.display_indexes([8.51, 9, 8.51])
+
+    def display_indexes(self, indexes):
+        iaa = Label(text='IAA: ' + str(indexes[0]),
+                    font_size=50,
+                    color=(54 / 255, 54 / 255, 54 / 255, 0.8),
+                    pos_hint={'x': -0.2, 'top': 1})
+        ia = Label(text='IA: ' + str(indexes[1]),
+                   font_size=50,
+                   color=(54 / 255, 54 / 255, 54 / 255, 0.8),
+                   pos_hint={'x': 0, 'top': 1})
+        iap = Label(text='IAP: ' + str(indexes[2]),
+                    font_size=50,
+                    color=(54 / 255, 54 / 255, 54 / 255, 0.8),
+                    pos_hint={'x': 0.2, 'top': 1})
+        self.add_widget(iaa)
+        self.add_widget(ia)
+        self.add_widget(iap)
+
+
 class LoginPage(Screen):
     def __init__(self, **kwargs):
         super(LoginPage, self).__init__(**kwargs)
@@ -29,6 +52,13 @@ class LoginPage(Screen):
 class HomePage(Screen):
     def __init__(self, **kwargs):
         super(HomePage, self).__init__(**kwargs)
+        self.display_student_name('Gabriel Medeiros das Neves')
+        self.show_current_indexes([8.27, 8.00, 8.27])
+        self.create_x_text_inputs(['Geração de Idéias e Criatividade em Informática',
+                                   'Programação Econômica e Financeira',
+                                   'Estruturas de Dados',
+                                   'Programação para Web',
+                                   'Técnicas Estatísticas de Predição'])
 
     def display_student_name(self, name):
         student_name = Label(text=name,
@@ -81,7 +111,7 @@ kv = Builder.load_file("iaa_calc_gui.kv")
 
 class MyMainApp(App):
     def build(self):
-        self.title = 'Login'
+        self.title = 'IAA Calculator'
         return kv
 
 
