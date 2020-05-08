@@ -50,7 +50,7 @@ WindowManager:
             pos_hint: {'x': 0.2, 'top':0.33}
             text: 'Entrar'
             on_release:
-                root.return_values()
+                app.get_login_values()
                 app.root.current = "home"
                 root.manager.transition.direction = "left"
                 root.manager.get_screen('home').display_student_name('Gabriel Medeiros das Neves')

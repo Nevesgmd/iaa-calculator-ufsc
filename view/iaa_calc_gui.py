@@ -1,3 +1,4 @@
+from controller.controller_student import ControllerStudent
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
@@ -38,15 +39,6 @@ class LoginPage(Screen):
         super(LoginPage, self).__init__(**kwargs)
         self.__user = str()
         self.__password = str()
-
-    def return_values(self):
-        self.__user = self.ids.login.text
-        self.__password = self.ids.password.text
-
-        print("Name:", self.__user,
-              "\nPassword:", self.__password)
-        self.ids.login.text = str()
-        self.ids.password.text = str()
 
 
 class HomePage(Screen):
@@ -109,11 +101,31 @@ class WindowManager(ScreenManager):
 kv = Builder.load_file("iaa_calc_gui.kv")
 
 
-class MyMainApp(App):
+class IaaCalculator(App):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__controller = ControllerStudent()
+        self.__login_page = kv.get_screen('login')
+        self.__home_page = kv.get_screen('home')
+        self.__new_indexes_page = kv.get_screen('new_indexes')
+        self.__user = str()
+        self.__password = str()
+        self.__user_browser = None
+
     def build(self):
         self.title = 'IAA Calculator'
         return kv
 
+    def get_login_values(self):
+        self.__user = self.__login_page.ids.login.text
+        self.__password = self.__login_page.ids.password.text
+        print("Name:", self.__user,
+              "\nPassword:", self.__password)
+        self.__user_browser = self.__controller.login(self.__user, self.__password)
+
+        self.__login_page.ids.login.text = str()
+        self.__login_page.ids.password.text = str()
+
 
 if __name__ == "__main__":
-    MyMainApp().run()
+    IaaCalculator().run()
