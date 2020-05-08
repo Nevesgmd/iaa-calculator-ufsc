@@ -1,4 +1,4 @@
-from controller.controller_student import ControllerStudent
+from scraper.ufsc_scraper import UfscScraper
 
 if __name__ == "__main__":
-    ControllerStudent().main()
+    UfscScraper().main()

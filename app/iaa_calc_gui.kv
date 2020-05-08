@@ -51,11 +51,9 @@ WindowManager:
             text: 'Entrar'
             on_release:
                 app.get_login_values()
+                app.update_home_page()
                 app.root.current = "home"
                 root.manager.transition.direction = "left"
-                root.manager.get_screen('home').display_student_name('Gabriel Medeiros das Neves')
-                root.manager.get_screen('home').show_current_indexes([8.27, 8.00, 8.27])
-                root.manager.get_screen('home').create_x_text_inputs(['Geração de Idéias e Criatividade em Informática', 'Programação Econômica e Financeira', 'Estruturas de Dados', 'Programação para Web', 'Técnicas Estatísticas de Predição'])
 
 <HomePage>:
     name: "home"
@@ -83,7 +81,6 @@ WindowManager:
         on_release:
             app.root.current = "new_indexes"
             root.manager.transition.direction = "left"
-            root.create_x_text_inputs(['Geração de Idéias e Criatividade em Informática', 'Programação Econômica e Financeira', 'Estruturas de Dados', 'Programação para Web', 'Técnicas Estatísticas de Predição'])
 
 <NewIndexesPage>:
     name: 'new_indexes'

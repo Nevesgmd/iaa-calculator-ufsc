@@ -1,17 +1,15 @@
 from __future__ import absolute_import, division
-from model.student import Student
-from view.view_student import ViewStudent
 from re import compile as _compile
 from getpass import getpass
+
 import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 from robobrowser import RoboBrowser
 
 
-class ControllerStudent:
+class UfscScraper:
     def __init__(self):
-        self.__student = Student()
-        self.__view = ViewStudent()
+        pass
 
     @staticmethod
     def login(user, passwd):
@@ -23,10 +21,10 @@ class ControllerStudent:
         form["password"].value = passwd
         browser.submit_form(form)
 
-        print(browser)
         return browser
 
-    def get_student_data(self, browser):
+    @staticmethod
+    def get_student_data(browser):
         url = "https://cagr.sistemas.ufsc.br/modules/aluno/historicoEscolar/"
         browser.open(url)
 
@@ -55,11 +53,14 @@ class ControllerStudent:
         except IndexError:
             raise SystemExit("CAGR indisponível.")
 
-        self.__student.name = browser.find(class_="rich-panel-header").text
-        self.__student.grades = grades
-        self.__student.indexes = indexes
+        return {
+            "name": browser.find(class_="rich-panel-header").text,
+            "grades": grades,
+            "indexes": indexes,
+        }
 
-    def get_current_classes(self, browser):
+    @staticmethod
+    def get_current_classes(browser):
         url = "https://cagr.sistemas.ufsc.br/modules/aluno/espelhoMatricula/"
         cls = "rich-table-cell"
         browser.open(url)
@@ -79,7 +80,7 @@ class ControllerStudent:
                 if "_" not in c.text
             ]
 
-        self.__student.current_classes = classes
+        return classes
 
     @staticmethod
     def round_ufsc(grade):
@@ -95,6 +96,11 @@ class ControllerStudent:
         return sum(h * g for h, g in grades) / sum(h for h, _ in grades)
 
     @staticmethod
+    def print_indexes(indexes):
+        model = "\nIAA: \033[1m{}\033[0m \t IA: {} \t IAP: {}"
+        return model.format(*list(map(lambda x: str(x)[:4], indexes)))
+
+    @staticmethod
     def loop_input(msg, _type, cond):
         while True:
             try:
@@ -105,10 +111,10 @@ class ControllerStudent:
             except ValueError:
                 pass
 
-    def get_input(self):
-        new_history = self.__student.grades
+    def get_input(self, student, current):
+        new_history = student["grades"][:]
 
-        for name, hours in self.__student.current_classes:
+        for name, hours in current:
             grade = self.loop_input(
                 "Possível nota em {}: ".format(name),
                 float,
@@ -123,7 +129,7 @@ class ControllerStudent:
                 self.ia_calc,
                 [
                     new_history,
-                    new_history[-len(self.__student.current_classes):],
+                    new_history[-len(current) :],
                     list(filter(lambda x: x[1] >= 6, new_history)),
                 ],
             )
@@ -131,28 +137,28 @@ class ControllerStudent:
 
         print(
             "Com as notas informadas, seus índices serão: {}".format(
-                self.__view.print_indexes(new_indexes)
+                self.print_indexes(new_indexes)
             )
         )
 
-        return lambda x: x and self.get_input()
+        return lambda x: x and self.get_input(student, current)
 
     def main(self):
         browser = self.login(
             input("Insira sua matrícula ou idUFSC: "),
             getpass("Insira sua senha do CAGR: "),
         )
-        self.get_student_data(browser)
-        self.get_current_classes(browser)
+
+        student, current = self.get_student_data(browser), self.get_current_classes(browser)
 
         print(
             "Olá, {}! Seus índices são: {}".format(
-                self.__student.name, self.__view.print_indexes(self.__student.indexes)
+                student["name"], self.print_indexes(student["indexes"])
             )
         )
 
         self.loop_input(
             "ENTER para sair, digite algo para novo cálculo: ",
             bool,
-            self.get_input(),
+            self.get_input(student, current),
         )
