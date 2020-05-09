@@ -48,6 +48,8 @@ WindowManager:
             password: True
             hint_text: 'Senha'
         Button:
+            id: login_btn
+            focus: True
             size_hint: 0.6, 0.1
             background_color: (44/255, 44/255, 44/255, 0.8)
             pos_hint: {'x': 0.2, 'top':0.33}
@@ -107,6 +109,7 @@ WindowManager:
 
 
     Button:
+        id: home_btn
         background_color: (44/255, 44/255, 44/255, 0.8)
         pos_hint: {'x': 0.2, 'top':0.27}
         text: 'Sair'

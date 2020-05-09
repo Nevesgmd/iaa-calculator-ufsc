@@ -31,9 +31,6 @@ class InvalidUserPage(Screen):
 
 
 class HomePage(Screen):
-    def __init__(self, **kwargs):
-        super(HomePage, self).__init__(**kwargs)
-
     def create_x_text_inputs(self, placeholders):
         gap = -0.07
         for i, placeholder in enumerate(placeholders):
@@ -74,10 +71,19 @@ class IaaCalculator(App):
         self.__student_grades = list()
         self.__student_indexes = list()
         self.__student_current_classes = list()
+        Window.bind(on_key_down=self._on_keyboard_down)
 
     def build(self):
         self.title = 'IAA Calculator'
         return kv
+
+    def _on_keyboard_down(self, instance, keyboard, keycode, text, modifiers):
+        if keycode == 40 and kv.current == 'login':  # 40 - Enter key pressed
+            self.get_login_values()
+            self.update_home_page()
+        elif keycode == 40 and kv.current == 'home':  # 40 - Enter key pressed
+            self.update_new_indexes()
+            self.clean_text_inputs()
 
     def get_login_values(self):
         self.__user = self.__login_page.ids.login.text
