@@ -33,7 +33,7 @@ class UfscScraper:
             browser.submit_form(browser.get_form(id="j_id20"))
 
         if browser.url != url:
-            raise SystemExit("Falha de autenticação!")
+            raise ValueError
 
         hist = browser.find_all(class_="rich-table-cell")
 

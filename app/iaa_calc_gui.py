@@ -18,7 +18,11 @@ class NewIndexesPage(Screen):
     pass
 
 
-class ErrorPage(Screen):
+class IndexesErrorPage(Screen):
+    pass
+
+
+class InvalidUserPage(Screen):
     pass
 
 
@@ -58,7 +62,7 @@ class IaaCalculator(App):
         self.__login_page = kv.get_screen('login')
         self.__home_page = kv.get_screen('home')
         self.__new_indexes_page = kv.get_screen('new_indexes')
-        self.__error_page = kv.get_screen('error')
+        self.__indexes_error_page = kv.get_screen('indexes_error')
         self.__user = str()
         self.__password = str()
         self.__user_browser = None
@@ -81,20 +85,33 @@ class IaaCalculator(App):
         self.__login_page.ids.login.text = str()
         self.__login_page.ids.password.text = str()
 
+    def validate_student_data(self):
+        try:
+            student_data = self.__scraper.get_student_data(self.__user_browser)
+            self.__student_name = student_data['name']
+            self.__student_grades = student_data['grades']
+            self.__student_indexes = student_data['indexes']
+
+            self.__student_current_classes = self.__scraper.get_current_classes(self.__user_browser)
+            return True
+        except ValueError:
+            kv.current = "invalid_user"
+            kv.transition.direction = "up"
+        except SystemExit:
+            print('Usuário já formado')
+
     def update_home_page(self):
-        student_data = self.__scraper.get_student_data(self.__user_browser)
-        self.__student_name = student_data['name']
-        self.__student_grades = student_data['grades']
-        self.__student_indexes = student_data['indexes']
+        if self.validate_student_data():
+            current_classes_names = [current_class[0] for current_class in self.__student_current_classes]
 
-        self.__student_current_classes = self.__scraper.get_current_classes(self.__user_browser)
-        current_classes_names = [current_class[0] for current_class in self.__student_current_classes]
+            self.__home_page.ids.name.text = self.__student_name
+            self.__home_page.ids.iaa.text = 'IAA: ' + str(self.__student_indexes[0])
+            self.__home_page.ids.ia.text = 'IA: ' + str(self.__student_indexes[1])
+            self.__home_page.ids.iap.text = 'IAP: ' + str(self.__student_indexes[2])
+            self.__home_page.create_x_text_inputs(current_classes_names)
 
-        self.__home_page.ids.name.text = self.__student_name
-        self.__home_page.ids.iaa.text = 'IAA: ' + str(self.__student_indexes[0])
-        self.__home_page.ids.ia.text = 'IA: ' + str(self.__student_indexes[1])
-        self.__home_page.ids.iap.text = 'IAP: ' + str(self.__student_indexes[2])
-        self.__home_page.create_x_text_inputs(current_classes_names)
+            kv.current = "home"
+            kv.transition.direction = "left"
 
     def update_new_indexes(self):
         try:
@@ -112,8 +129,7 @@ class IaaCalculator(App):
             kv.transition.direction = "left"
 
         except ValueError:
-            self.__error_page.ids.hint.text = 'Certifique-se de utilizar . para casas decimais'
-            kv.current = "error"
+            kv.current = "indexes_error"
             kv.transition.direction = "up"
 
     def clean_text_inputs(self):
