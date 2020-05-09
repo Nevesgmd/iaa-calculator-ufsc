@@ -1,9 +1,7 @@
 from scraper.ufsc_scraper import UfscScraper
-import weakref
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 Window.clearcolor = (0.85, 0.85, 0.9, 0.8)
@@ -16,58 +14,15 @@ class NewIndexesPage(Screen):
     def __init__(self, **kwargs):
         super(NewIndexesPage, self).__init__(**kwargs)
 
-    def display_indexes(self, indexes):
-        iaa = Label(text='IAA: ' + str(indexes[0]),
-                    font_size=50,
-                    color=(54 / 255, 54 / 255, 54 / 255, 0.8),
-                    pos_hint={'x': -0.2, 'top': 1})
-        ia = Label(text='IA: ' + str(indexes[1]),
-                   font_size=50,
-                   color=(54 / 255, 54 / 255, 54 / 255, 0.8),
-                   pos_hint={'x': 0, 'top': 1})
-        iap = Label(text='IAP: ' + str(indexes[2]),
-                    font_size=50,
-                    color=(54 / 255, 54 / 255, 54 / 255, 0.8),
-                    pos_hint={'x': 0.2, 'top': 1})
-        self.add_widget(iaa)
-        self.add_widget(ia)
-        self.add_widget(iap)
-
 
 class LoginPage(Screen):
     def __init__(self, **kwargs):
         super(LoginPage, self).__init__(**kwargs)
-        self.__user = str()
-        self.__password = str()
 
 
 class HomePage(Screen):
     def __init__(self, **kwargs):
         super(HomePage, self).__init__(**kwargs)
-
-    def display_student_name(self, name):
-        student_name = Label(text=name,
-                             font_size=60,
-                             color=(24/255, 24/255, 24/255, 0.8),
-                             pos_hint={'x': 0, 'top': 1.4})
-        self.add_widget(student_name)
-
-    def show_current_indexes(self, indexes):
-        iaa = Label(text='IAA: ' + str(indexes[0]),
-                    font_size=40,
-                    color=(44 / 255, 44 / 255, 44 / 255, 0.8),
-                    pos_hint={'x': -0.2, 'top': 1.3})
-        ia = Label(text='IA: ' + str(indexes[1]),
-                   font_size=40,
-                   color=(44 / 255, 44 / 255, 44 / 255, 0.8),
-                   pos_hint={'x': 0, 'top': 1.3})
-        iap = Label(text='IAP: ' + str(indexes[2]),
-                    font_size=40,
-                    color=(44 / 255, 44 / 255, 44 / 255, 0.8),
-                    pos_hint={'x': 0.2, 'top': 1.3})
-        self.add_widget(iaa)
-        self.add_widget(ia)
-        self.add_widget(iap)
 
     def create_x_text_inputs(self, placeholders):
         gap = -0.07
@@ -108,7 +63,6 @@ class IaaCalculator(App):
         self.__student_grades = list()
         self.__student_indexes = list()
         self.__student_current_classes = list()
-        self.__student_current_classes_names = list()
 
     def build(self):
         self.title = 'IAA Calculator'
@@ -131,11 +85,13 @@ class IaaCalculator(App):
         self.__student_indexes = student_data['indexes']
 
         self.__student_current_classes = self.__scraper.get_current_classes(self.__user_browser)
-        self.__student_current_classes_names = [current_class[0] for current_class in self.__student_current_classes]
+        current_classes_names = [current_class[0] for current_class in self.__student_current_classes]
 
-        self.__home_page.display_student_name(self.__student_name)
-        self.__home_page.show_current_indexes(self.__student_indexes)
-        self.__home_page.create_x_text_inputs(self.__student_current_classes_names)
+        self.__home_page.ids.name.text = self.__student_name
+        self.__home_page.ids.iaa.text = 'IAA: ' + str(self.__student_indexes[0])
+        self.__home_page.ids.ia.text = 'IA: ' + str(self.__student_indexes[1])
+        self.__home_page.ids.iap.text = 'IAP: ' + str(self.__student_indexes[2])
+        self.__home_page.create_x_text_inputs(current_classes_names)
 
     def update_new_indexes(self):
         possible_grades = [float(self.__home_page.ids['text_input_{}'.format(i)].text)
