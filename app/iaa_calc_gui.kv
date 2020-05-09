@@ -4,6 +4,7 @@ WindowManager:
     NewIndexesPage:
     IndexesErrorPage:
     InvalidUserPage:
+    GraduatedPage:
 
 <TextInput>:
     font_size: 30
@@ -199,3 +200,25 @@ WindowManager:
         on_release:
             app.root.current = "login"
             root.manager.transition.direction = "down"
+
+<GraduatedPage>:
+    name: 'graduated'
+    Image:
+        source: 'images/mortarboard.png'
+        size_hint: 0.3, 0.30
+        pos_hint: {'x': 0.35, 'top':0.9}
+
+    Label:
+        text: 'Estudante já formado. Parabéns!'
+        font_size: 50
+        color: (24/255, 24/255, 24/255, 0.8)
+        pos_hint: {'x': 0, 'top': 1}
+
+    Button:
+        background_color: (44/255, 44/255, 44/255, 0.8)
+        pos_hint: {'x': 0.35, 'top':0.35}
+        text: 'Voltar'
+        size_hint: 0.3, 0.1
+        on_release:
+            app.root.current = "login"
+            root.manager.transition.direction = "up"

@@ -14,6 +14,10 @@ class LoginPage(Screen):
     pass
 
 
+class GraduatedPage(Screen):
+    pass
+
+
 class NewIndexesPage(Screen):
     pass
 
@@ -98,6 +102,8 @@ class IaaCalculator(App):
             kv.current = "invalid_user"
             kv.transition.direction = "up"
         except SystemExit:
+            kv.current = "graduated"
+            kv.transition.direction = "down"
             print('Usuário já formado')
 
     def update_home_page(self):
