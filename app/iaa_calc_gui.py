@@ -11,13 +11,11 @@ Window.maximum_width, Window.maximum_height = (1000, 700)
 
 
 class NewIndexesPage(Screen):
-    def __init__(self, **kwargs):
-        super(NewIndexesPage, self).__init__(**kwargs)
+    pass
 
 
 class LoginPage(Screen):
-    def __init__(self, **kwargs):
-        super(LoginPage, self).__init__(**kwargs)
+    pass
 
 
 class HomePage(Screen):
@@ -103,6 +101,10 @@ class IaaCalculator(App):
         self.__new_indexes_page.ids.iaa.text = 'IAA: ' + str(new_indexes[0])
         self.__new_indexes_page.ids.ia.text = 'IA: ' + str(new_indexes[1])
         self.__new_indexes_page.ids.iap.text = 'IAP: ' + str(new_indexes[2])
+
+    def clean_text_inputs(self):
+        for i in range(len(self.__student_current_classes)):
+            self.__home_page.ids['text_input_{}'.format(i)].text = ''
 
 
 if __name__ == "__main__":

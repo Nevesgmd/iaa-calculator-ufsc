@@ -109,6 +109,7 @@ WindowManager:
         text: 'Calcular'
         on_release:
             app.update_new_indexes()
+            app.clean_text_inputs()
             app.root.current = "new_indexes"
             root.manager.transition.direction = "left"
 
