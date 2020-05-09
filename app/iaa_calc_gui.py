@@ -10,11 +10,15 @@ Window.minimum_width, Window.minimum_height = (700, 400)
 Window.maximum_width, Window.maximum_height = (1000, 700)
 
 
+class LoginPage(Screen):
+    pass
+
+
 class NewIndexesPage(Screen):
     pass
 
 
-class LoginPage(Screen):
+class ErrorPage(Screen):
     pass
 
 
@@ -44,7 +48,7 @@ class WindowManager(ScreenManager):
     pass
 
 
-kv = Builder.load_file("iaa_calc_gui.kv")
+kv = Builder.load_file("app/iaa_calc_gui.kv")
 
 
 class IaaCalculator(App):
@@ -54,6 +58,7 @@ class IaaCalculator(App):
         self.__login_page = kv.get_screen('login')
         self.__home_page = kv.get_screen('home')
         self.__new_indexes_page = kv.get_screen('new_indexes')
+        self.__error_page = kv.get_screen('error')
         self.__user = str()
         self.__password = str()
         self.__user_browser = None
@@ -92,15 +97,24 @@ class IaaCalculator(App):
         self.__home_page.create_x_text_inputs(current_classes_names)
 
     def update_new_indexes(self):
-        possible_grades = [float(self.__home_page.ids['text_input_{}'.format(i)].text)
-                           for i in range(len(self.__student_current_classes))]
-        new_indexes = self.__scraper.new_indexes(self.__student_grades,
-                                                 [current_class[1] for current_class in self.__student_current_classes],
-                                                 possible_grades)
+        try:
+            possible_grades = [self.__home_page.ids['text_input_{}'.format(i)].text
+                               for i in range(len(self.__student_current_classes))]
+            new_indexes = self.__scraper.new_indexes(self.__student_grades,
+                                                     [current_class[1] for current_class in self.__student_current_classes],
+                                                     possible_grades)
 
-        self.__new_indexes_page.ids.iaa.text = 'IAA: ' + str(new_indexes[0])
-        self.__new_indexes_page.ids.ia.text = 'IA: ' + str(new_indexes[1])
-        self.__new_indexes_page.ids.iap.text = 'IAP: ' + str(new_indexes[2])
+            self.__new_indexes_page.ids.iaa.text = 'IAA: ' + str(new_indexes[0])
+            self.__new_indexes_page.ids.ia.text = 'IA: ' + str(new_indexes[1])
+            self.__new_indexes_page.ids.iap.text = 'IAP: ' + str(new_indexes[2])
+
+            kv.current = "new_indexes"
+            kv.transition.direction = "left"
+
+        except ValueError:
+            self.__error_page.ids.hint.text = 'Certifique-se de utilizar . para casas decimais'
+            kv.current = "error"
+            kv.transition.direction = "up"
 
     def clean_text_inputs(self):
         for i in range(len(self.__student_current_classes)):

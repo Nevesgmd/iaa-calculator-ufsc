@@ -2,6 +2,7 @@ WindowManager:
     LoginPage:
     HomePage:
     NewIndexesPage:
+    ErrorPage:
 
 <TextInput>:
     font_size: 30
@@ -21,11 +22,11 @@ WindowManager:
 
     FloatLayout:
         Image:
-            source: '../images/project-logo.png'
+            source: 'images/project-logo.png'
             size_hint: 0.9, 0.9
             pos_hint: {'x': -0.05, 'top':1.15}
         Image:
-            source: '../images/calculator-icon.png'
+            source: 'images/calculator-icon.png'
             size_hint: 0.4, 0.4
             pos_hint: {'x': 0.46, 'top':0.9}
         TextInput:
@@ -110,12 +111,11 @@ WindowManager:
         on_release:
             app.update_new_indexes()
             app.clean_text_inputs()
-            app.root.current = "new_indexes"
-            root.manager.transition.direction = "left"
 
 <NewIndexesPage>:
     name: 'new_indexes'
     Label:
+        id: title
         text: 'Índices Calculados'
         font_size: 60
         color: (24/255, 24/255, 24/255, 0.8)
@@ -150,3 +150,28 @@ WindowManager:
         on_release:
             app.root.current = "home"
             root.manager.transition.direction = "right"
+
+<ErrorPage>:
+    name: 'error'
+    Label:
+        id: title
+        text: 'Notas informadas incorretas'
+        font_size: 60
+        color: (24/255, 24/255, 24/255, 0.8)
+        pos_hint: {'x': 0, 'top': 1.2}
+
+    Label:
+        id: hint
+        text: 'Hint'
+        font_size: 40
+        color: (54 / 255, 54 / 255, 54 / 255, 0.8)
+        pos_hint: {'x': 0, 'top': 1}
+
+    Button:
+        background_color: (44/255, 44/255, 44/255, 0.8)
+        pos_hint: {'x': 0.35, 'top':0.35}
+        text: 'Voltar'
+        size_hint: 0.3, 0.1
+        on_release:
+            app.root.current = "home"
+            root.manager.transition.direction = "down"

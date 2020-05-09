@@ -1,4 +1,4 @@
-from scraper.ufsc_scraper import UfscScraper
+from app.iaa_calc_gui import IaaCalculator
 
 if __name__ == "__main__":
-    UfscScraper().main()
+    IaaCalculator().run()

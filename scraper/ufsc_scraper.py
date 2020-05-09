@@ -97,11 +97,6 @@ class UfscScraper:
         return round(sum(h * g for h, g in grades) / sum(h for h, _ in grades), 2)
 
     @staticmethod
-    def print_indexes(indexes):
-        model = "\nIAA: \033[1m{}\033[0m \t IA: {} \t IAP: {}"
-        return model.format(*list(map(lambda x: str(x)[:4], indexes)))
-
-    @staticmethod
     def loop_input(msg, _type, cond):
         while True:
             try:
@@ -116,8 +111,10 @@ class UfscScraper:
         new_history = current_grades[:]
 
         for i in range(len(current_classes_credits)):
+            if not (10 >= float(grades[i]) >= 0):
+                raise ValueError
             new_history.append([current_classes_credits[i] * 18,
-                                grades[i]])
+                                float(grades[i])])
 
         new_indexes = list(
             map(
