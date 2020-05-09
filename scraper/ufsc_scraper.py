@@ -1,4 +1,5 @@
 from __future__ import absolute_import, division
+from math import trunc
 from re import compile as _compile
 from getpass import getpass
 
@@ -93,7 +94,7 @@ class UfscScraper:
 
     @staticmethod
     def ia_calc(grades):
-        return sum(h * g for h, g in grades) / sum(h for h, _ in grades)
+        return round(sum(h * g for h, g in grades) / sum(h for h, _ in grades), 2)
 
     @staticmethod
     def print_indexes(indexes):
@@ -111,54 +112,22 @@ class UfscScraper:
             except ValueError:
                 pass
 
-    def get_input(self, student, current):
-        new_history = student["grades"][:]
+    def new_indexes(self, current_grades, current_classes_credits, grades):
+        new_history = current_grades[:]
 
-        for name, hours in current:
-            grade = self.loop_input(
-                "Possível nota em {}: ".format(name),
-                float,
-                lambda x: not 0 <= x <= 10,
-            )
-            if not hours:
-                hours = self.loop_input("Seu número de créditos: ", int, lambda x: x < 0)
-            new_history.append([hours * 18, self.round_ufsc(grade)])
+        for i in range(len(current_classes_credits)):
+            new_history.append([current_classes_credits[i] * 18,
+                                grades[i]])
 
         new_indexes = list(
             map(
                 self.ia_calc,
                 [
                     new_history,
-                    new_history[-len(current) :],
+                    new_history[-len(current_classes_credits):],
                     list(filter(lambda x: x[1] >= 6, new_history)),
                 ],
             )
         )
 
-        print(
-            "Com as notas informadas, seus índices serão: {}".format(
-                self.print_indexes(new_indexes)
-            )
-        )
-
-        return lambda x: x and self.get_input(student, current)
-
-    def main(self):
-        browser = self.login(
-            input("Insira sua matrícula ou idUFSC: "),
-            getpass("Insira sua senha do CAGR: "),
-        )
-
-        student, current = self.get_student_data(browser), self.get_current_classes(browser)
-
-        print(
-            "Olá, {}! Seus índices são: {}".format(
-                student["name"], self.print_indexes(student["indexes"])
-            )
-        )
-
-        self.loop_input(
-            "ENTER para sair, digite algo para novo cálculo: ",
-            bool,
-            self.get_input(student, current),
-        )
+        return new_indexes

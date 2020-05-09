@@ -1,4 +1,5 @@
 from scraper.ufsc_scraper import UfscScraper
+import weakref
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.textinput import TextInput
@@ -14,7 +15,6 @@ Window.maximum_width, Window.maximum_height = (1000, 700)
 class NewIndexesPage(Screen):
     def __init__(self, **kwargs):
         super(NewIndexesPage, self).__init__(**kwargs)
-        self.display_indexes([8.51, 9, 8.51])
 
     def display_indexes(self, indexes):
         iaa = Label(text='IAA: ' + str(indexes[0]),
@@ -72,8 +72,7 @@ class HomePage(Screen):
     def create_x_text_inputs(self, placeholders):
         gap = -0.07
         for i, placeholder in enumerate(placeholders):
-            text_input = TextInput(id='text_input_'+str(i),
-                                   font_size=30-(len(placeholders)-5)*3.1,
+            text_input = TextInput(font_size=30-(len(placeholders)-5)*3.1,
                                    size_hint=(0.6, 0.35/len(placeholders)),
                                    background_normal='atlas://data/images/defaulttheme/textinput_active',
                                    border=(4, 4, 4, 4),
@@ -84,6 +83,7 @@ class HomePage(Screen):
                                    write_tab=False
                                    )
             self.add_widget(text_input)
+            self.ids['text_input_'+str(i)] = text_input
             gap -= 0.35/len(placeholders)
 
 
@@ -119,9 +119,7 @@ class IaaCalculator(App):
         self.__password = self.__login_page.ids.password.text
         print("Name:", self.__user,
               "\nPassword:", self.__password)
-        print(self.__user_browser)
         self.__user_browser = self.__scraper.login(self.__user, self.__password)
-        print(self.__user_browser)
 
         self.__login_page.ids.login.text = str()
         self.__login_page.ids.password.text = str()
@@ -138,6 +136,17 @@ class IaaCalculator(App):
         self.__home_page.display_student_name(self.__student_name)
         self.__home_page.show_current_indexes(self.__student_indexes)
         self.__home_page.create_x_text_inputs(self.__student_current_classes_names)
+
+    def update_new_indexes(self):
+        possible_grades = [float(self.__home_page.ids['text_input_{}'.format(i)].text)
+                           for i in range(len(self.__student_current_classes))]
+        new_indexes = self.__scraper.new_indexes(self.__student_grades,
+                                                 [current_class[1] for current_class in self.__student_current_classes],
+                                                 possible_grades)
+
+        self.__new_indexes_page.ids.iaa.text = 'IAA: ' + str(new_indexes[0])
+        self.__new_indexes_page.ids.ia.text = 'IA: ' + str(new_indexes[1])
+        self.__new_indexes_page.ids.iap.text = 'IAP: ' + str(new_indexes[2])
 
 
 if __name__ == "__main__":

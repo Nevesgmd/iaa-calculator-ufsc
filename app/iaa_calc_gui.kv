@@ -79,6 +79,7 @@ WindowManager:
         pos_hint: {'x': 0.5, 'top':0.27}
         text: 'Calcular'
         on_release:
+            app.update_new_indexes()
             app.root.current = "new_indexes"
             root.manager.transition.direction = "left"
 
@@ -89,6 +90,27 @@ WindowManager:
         font_size: 60
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.2}
+
+    Label:
+        id: iaa
+        text: 'IAA: '
+        font_size: 50
+        color: (54 / 255, 54 / 255, 54 / 255, 0.8)
+        pos_hint: {'x': -0.2, 'top': 1}
+
+    Label:
+        id: ia
+        text: 'IA: '
+        font_size: 50
+        color: (54 / 255, 54 / 255, 54 / 255, 0.8)
+        pos_hint: {'x': 0, 'top': 1}
+
+    Label:
+        id: iap
+        text: 'IAP: '
+        font_size: 50
+        color: (54 / 255, 54 / 255, 54 / 255, 0.8)
+        pos_hint: {'x': 0.2, 'top': 1}
 
     Button:
         background_color: (44/255, 44/255, 44/255, 0.8)
