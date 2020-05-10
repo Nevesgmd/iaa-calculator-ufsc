@@ -45,11 +45,11 @@ class HomePage(Screen):
             gap -= 0.35/len(placeholders)
 
 
-class IndexesErrorPage(Screen):
+class IndicesErrorPage(Screen):
     pass
 
 
-class NewIndexesPage(Screen):
+class NewIndicesPage(Screen):
     pass
 
 
@@ -63,8 +63,8 @@ class IaaCalculator(App):
         self.__student = Student()
         self.__login_page = kv.get_screen('login')
         self.__home_page = kv.get_screen('home')
-        self.__new_indexes_page = kv.get_screen('new_indexes')
-        self.__indexes_error_page = kv.get_screen('indexes_error')
+        self.__new_indices_page = kv.get_screen('new_indices')
+        self.__indices_error_page = kv.get_screen('indices_error')
         Window.bind(on_key_down=self._on_keyboard_down)
 
     def build(self):
@@ -76,7 +76,7 @@ class IaaCalculator(App):
             self.get_login_values()
             self.update_home_page()
         elif keycode == 40 and kv.current == 'home':  # 40 - Enter key pressed
-            self.update_new_indexes()
+            self.update_new_indices()
             self.clean_text_inputs()
 
     def get_login_values(self):
@@ -92,11 +92,14 @@ class IaaCalculator(App):
             student_data = self.__scraper.get_student_data(self.__student.user_browser)
             self.__student.name = student_data['name']
             self.__student.grades = student_data['grades']
-            self.__student.indexes = student_data['indexes']
+            self.__student.indices = student_data['indices']
 
             self.__student.current_classes = self.__scraper.get_current_classes(self.__student.user_browser)
             return True
         except ValueError:
+            kv.current = "invalid_user"
+            kv.transition.direction = "up"
+        except IndexError:
             kv.current = "invalid_user"
             kv.transition.direction = "up"
         except SystemExit:
@@ -108,33 +111,33 @@ class IaaCalculator(App):
             current_classes_names = [current_class[0] for current_class in self.__student.current_classes]
 
             self.__home_page.ids.name.text = self.__student.name
-            self.__home_page.ids.iaa.text = 'IAA: ' + str(self.__student.indexes[0])
-            self.__home_page.ids.ia.text = 'IA: ' + str(self.__student.indexes[1])
-            self.__home_page.ids.iap.text = 'IAP: ' + str(self.__student.indexes[2])
+            self.__home_page.ids.iaa.text = 'IAA: ' + str(self.__student.indices[0])
+            self.__home_page.ids.ia.text = 'IA: ' + str(self.__student.indices[1])
+            self.__home_page.ids.iap.text = 'IAP: ' + str(self.__student.indices[2])
             self.__home_page.create_x_text_inputs(current_classes_names)
 
             kv.current = "home"
             kv.transition.direction = "left"
 
-    def update_new_indexes(self):
+    def update_new_indices(self):
         try:
             possible_grades = [self.__home_page.ids['text_input_{}'.format(i)].text
                                for i in range(len(self.__student.current_classes))]
-            new_indexes = self.__scraper.new_indexes(self.__student.grades,
+            new_indices = self.__scraper.new_indices(self.__student.grades,
                                                      [current_class[1] for
                                                       current_class in
                                                       self.__student.current_classes],
                                                      possible_grades)
 
-            self.__new_indexes_page.ids.iaa.text = 'IAA: ' + str(new_indexes[0])
-            self.__new_indexes_page.ids.ia.text = 'IA: ' + str(new_indexes[1])
-            self.__new_indexes_page.ids.iap.text = 'IAP: ' + str(new_indexes[2])
+            self.__new_indices_page.ids.iaa.text = 'IAA: ' + str(new_indices[0])
+            self.__new_indices_page.ids.ia.text = 'IA: ' + str(new_indices[1])
+            self.__new_indices_page.ids.iap.text = 'IAP: ' + str(new_indices[2])
 
-            kv.current = "new_indexes"
+            kv.current = "new_indices"
             kv.transition.direction = "left"
 
         except ValueError:
-            kv.current = "indexes_error"
+            kv.current = "indices_error"
             kv.transition.direction = "up"
 
     def clean_text_inputs(self):

@@ -1,8 +1,8 @@
 PageManager:
     LoginPage:
     HomePage:
-    NewIndexesPage:
-    IndexesErrorPage:
+    NewIndicesPage:
+    IndicesErrorPage:
     InvalidUserPage:
     GraduatedPage:
 
@@ -119,11 +119,11 @@ PageManager:
         pos_hint: {'x': 0.5, 'top':0.27}
         text: 'Calcular'
         on_release:
-            app.update_new_indexes()
+            app.update_new_indices()
             app.clean_text_inputs()
 
-<NewIndexesPage>:
-    name: 'new_indexes'
+<NewIndicesPage>:
+    name: 'new_indices'
     Label:
         id: title
         text: 'Índices Calculados'
@@ -161,8 +161,8 @@ PageManager:
             app.root.current = "home"
             root.manager.transition.direction = "right"
 
-<IndexesErrorPage>:
-    name: 'indexes_error'
+<IndicesErrorPage>:
+    name: 'indices_error'
     Label:
         id: title
         text: 'Notas informadas incorretas'

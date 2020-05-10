@@ -3,7 +3,7 @@ class Student:
         self.__user_browser = None
         self.__name = str()
         self.__grades = list()
-        self.__indexes = list()
+        self.__indices = list()
         self.__current_classes = list()
 
     @property
@@ -31,12 +31,12 @@ class Student:
         self.__grades = grades
 
     @property
-    def indexes(self):
-        return self.__indexes
+    def indices(self):
+        return self.__indices
 
-    @indexes.setter
-    def indexes(self, indexes):
-        self.__indexes = indexes
+    @indices.setter
+    def indices(self, indices):
+        self.__indices = indices
 
     @property
     def current_classes(self):

@@ -30,9 +30,9 @@ class UfscScraper:
     @staticmethod
     def get_student_data(browser):
         """
-        Get student name, grades and indexes from CAGR
+        Get student name, grades and indices from CAGR
         :param browser: Robobrowser instance with logged user
-        :return: student name, grades and indexes (dict)
+        :return: student name, grades and indices (dict)
         """
         url = "https://cagr.sistemas.ufsc.br/modules/aluno/historicoEscolar/"
         browser.open(url)
@@ -56,7 +56,7 @@ class UfscScraper:
 
         try:
             base = "disciplina_footer_col{}"
-            indexes = [
+            indices = [
                 browser.find_all(class_=base.format(i))[-1].text for i in [4, 2, 6]
             ]
         except IndexError:
@@ -65,7 +65,7 @@ class UfscScraper:
         return {
             "name": browser.find(class_="rich-panel-header").text,
             "grades": grades,
-            "indexes": indexes,
+            "indices": indices,
         }
 
     @staticmethod
@@ -111,10 +111,23 @@ class UfscScraper:
         return float(int(grade) + 1)
 
     @staticmethod
-    def ia_calc(grades):
+    def ia_calc(grades: list):
+        """
+        Calculates the accumulated indices according to the university's rule
+        :param grades: grade and credit for each class attended by the student
+        :return: calculated indice (float)
+        """
+        print(round(sum(h * g for h, g in grades) / sum(h for h, _ in grades), 2))
         return round(sum(h * g for h, g in grades) / sum(h for h, _ in grades), 2)
 
-    def new_indexes(self, current_grades, current_classes_credits, grades):
+    def new_indices(self, current_grades: list, current_classes_credits: list, grades):
+        """
+        Calculates the new indices according to the university's rule
+        :param current_grades: grades and hours for each class attended by the student
+        :param current_classes_credits: current classes credits
+        :param grades: possible grades for the current classes
+        :return: new indices (list)
+        """
         new_history = current_grades[:]
 
         for i in range(len(current_classes_credits)):
@@ -123,7 +136,7 @@ class UfscScraper:
             new_history.append([current_classes_credits[i] * 18,
                                 self.round_ufsc(float(grades[i]))])
 
-        new_indexes = list(
+        new_indices = list(
             map(
                 self.ia_calc,
                 [
@@ -134,4 +147,4 @@ class UfscScraper:
             )
         )
 
-        return new_indexes
+        return new_indices
