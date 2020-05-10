@@ -1,4 +1,4 @@
-WindowManager:
+PageManager:
     LoginPage:
     HomePage:
     NewIndexesPage:
@@ -7,17 +7,15 @@ WindowManager:
     GraduatedPage:
 
 <TextInput>:
-    font_size: 30
+    font_size: 0.55 * self.height
     size_hint: 0.6, 0.07
     background_normal: 'atlas://data/images/defaulttheme/textinput_active'
     border: (4, 4, 4, 4)
 
 <Button>:
-    font_size: 40
+    font_size: 0.48 * self.height
     color: 1, 1, 1, 1
     border: (4, 4, 4, 4)
-
-
 
 <LoginPage>:
     name: "login"
@@ -25,8 +23,9 @@ WindowManager:
     FloatLayout:
         Image:
             source: 'images/project-logo.png'
-            size_hint: 0.9, 0.9
-            pos_hint: {'x': -0.05, 'top':1.15}
+            size_hint_x: 0.65
+            allow_stretch: True
+            pos_hint: {'x': 0.08, 'top':1.18}
         Image:
             source: 'images/calculator-icon.png'
             size_hint: 0.4, 0.4
@@ -49,7 +48,6 @@ WindowManager:
             hint_text: 'Senha'
         Button:
             id: login_btn
-            focus: True
             size_hint: 0.6, 0.1
             background_color: (44/255, 44/255, 44/255, 0.8)
             pos_hint: {'x': 0.2, 'top':0.33}
@@ -60,13 +58,13 @@ WindowManager:
 
         Label:
             text: 'por: Gabriel Medeiros das Neves'
-            font_size: 24
+            font_size: 0.03 * self.height
             color: (44/255, 44/255, 44/255, 0.8)
             pos_hint: {'x': 0, 'top': 0.63}
 
         Label:
             text: '@nevesgmd'
-            font_size: 24
+            font_size: 0.03 * self.height
             color: (44/255, 44/255, 44/255, 0.8)
             pos_hint: {'x': 0, 'top': 0.6}
 
@@ -76,34 +74,34 @@ WindowManager:
     Label:
         id: name
         text: 'Nome do Estudante'
-        font_size: 60
+        font_size: 0.065 * self.height
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.4}
 
     Label:
         text: 'Possíveis notas'
-        font_size: 35
+        font_size: 0.043 * self.height
         color: (44/255, 44/255, 44/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.17}
 
     Label:
         id: iaa
         text: 'IAA: '
-        font_size: 40
+        font_size: 0.047 * self.height
         color: (44/255, 44/255, 44/255, 0.8)
         pos_hint: {'x': -0.2, 'top': 1.3}
 
     Label:
         id: ia
         text: 'IA: '
-        font_size: 40
+        font_size: 0.047 * self.height
         color: (44/255, 44/255, 44/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.3}
 
     Label:
         id: iap
         text: 'IAP: '
-        font_size: 40
+        font_size: 0.047 * self.height
         color: (44/255, 44/255, 44/255, 0.8)
         pos_hint: {'x': 0.2, 'top': 1.3}
 
@@ -132,28 +130,28 @@ WindowManager:
     Label:
         id: title
         text: 'Índices Calculados'
-        font_size: 60
+        font_size: 0.065 * self.height
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.2}
 
     Label:
         id: iaa
         text: 'IAA: '
-        font_size: 50
+        font_size: 0.06 * self.height
         color: (54 / 255, 54 / 255, 54 / 255, 0.8)
         pos_hint: {'x': -0.2, 'top': 1}
 
     Label:
         id: ia
         text: 'IA: '
-        font_size: 50
+        font_size: 0.06 * self.height
         color: (54 / 255, 54 / 255, 54 / 255, 0.8)
         pos_hint: {'x': 0, 'top': 1}
 
     Label:
         id: iap
         text: 'IAP: '
-        font_size: 50
+        font_size: 0.06 * self.height
         color: (54 / 255, 54 / 255, 54 / 255, 0.8)
         pos_hint: {'x': 0.2, 'top': 1}
 
@@ -171,14 +169,14 @@ WindowManager:
     Label:
         id: title
         text: 'Notas informadas incorretas'
-        font_size: 60
+        font_size: 0.065 * self.height
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.2}
 
     Label:
         id: hint
         text: 'Certifique-se de utilizar "." para casas decimais'
-        font_size: 40
+        font_size: 0.05 * self.height
         color: (54 / 255, 54 / 255, 54 / 255, 0.8)
         pos_hint: {'x': 0, 'top': 1}
 
@@ -196,14 +194,14 @@ WindowManager:
     Label:
         id: title
         text: 'Usuário ou Senha Inválidos'
-        font_size: 60
+        font_size: 0.065 * self.height
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1.2}
 
     Label:
         id: hint
         text: 'Caso os dados estejam corretos, certifique-se de que o CAGR não está fora do ar'
-        font_size: 30
+        font_size: 0.041 * self.height
         color: (54 / 255, 54 / 255, 54 / 255, 0.8)
         pos_hint: {'x': 0, 'top': 1}
 
@@ -225,7 +223,7 @@ WindowManager:
 
     Label:
         text: 'Estudante já formado. Parabéns!'
-        font_size: 50
+        font_size: 0.06 * self.height
         color: (24/255, 24/255, 24/255, 0.8)
         pos_hint: {'x': 0, 'top': 1}
 

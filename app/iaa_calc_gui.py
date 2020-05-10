@@ -10,19 +10,15 @@ Window.minimum_width, Window.minimum_height = (700, 400)
 Window.maximum_width, Window.maximum_height = (1000, 700)
 
 
+class PageManager(ScreenManager):
+    pass
+
+
 class LoginPage(Screen):
     pass
 
 
 class GraduatedPage(Screen):
-    pass
-
-
-class NewIndexesPage(Screen):
-    pass
-
-
-class IndexesErrorPage(Screen):
     pass
 
 
@@ -49,7 +45,11 @@ class HomePage(Screen):
             gap -= 0.35/len(placeholders)
 
 
-class WindowManager(ScreenManager):
+class IndexesErrorPage(Screen):
+    pass
+
+
+class NewIndexesPage(Screen):
     pass
 
 
@@ -64,6 +64,8 @@ class IaaCalculator(App):
         self.__home_page = kv.get_screen('home')
         self.__new_indexes_page = kv.get_screen('new_indexes')
         self.__indexes_error_page = kv.get_screen('indexes_error')
+        Window.bind(on_key_down=self._on_keyboard_down)
+
         self.__user = str()
         self.__password = str()
         self.__user_browser = None
@@ -71,7 +73,6 @@ class IaaCalculator(App):
         self.__student_grades = list()
         self.__student_indexes = list()
         self.__student_current_classes = list()
-        Window.bind(on_key_down=self._on_keyboard_down)
 
     def build(self):
         self.title = 'IAA Calculator'
