@@ -10,7 +10,13 @@ class UfscScraper:
         pass
 
     @staticmethod
-    def login(user, passwd):
+    def login(user: str, passwd: str):
+        """
+        Logs the user into CAGR
+        :param user: student user
+        :param passwd: student password
+        :return: Robobrowser instance with logged user
+        """
         browser = RoboBrowser(history=True, parser="html.parser")
         browser.open("https://sistemas.ufsc.br/login")
 
@@ -23,6 +29,11 @@ class UfscScraper:
 
     @staticmethod
     def get_student_data(browser):
+        """
+        Get student name, grades and indexes from CAGR
+        :param browser: Robobrowser instance with logged user
+        :return: student name, grades and indexes (dict)
+        """
         url = "https://cagr.sistemas.ufsc.br/modules/aluno/historicoEscolar/"
         browser.open(url)
 
@@ -59,6 +70,11 @@ class UfscScraper:
 
     @staticmethod
     def get_current_classes(browser):
+        """
+        Get student current classes names and credits from CAGR
+        :param browser: Robobrowser instance with logged user
+        :return: student current classes credits and names (list)
+        """
         url = "https://cagr.sistemas.ufsc.br/modules/aluno/espelhoMatricula/"
         cls = "rich-table-cell"
         browser.open(url)
@@ -81,7 +97,12 @@ class UfscScraper:
         return classes
 
     @staticmethod
-    def round_ufsc(grade):
+    def round_ufsc(grade: float):
+        """
+        Round UFSC grade following the university's rule
+        :param grade: grade (between 0 and 10)
+        :return: rounded grade (float)
+        """
         decimal = grade % 1
         if decimal < 0.25:
             return float(int(grade))
@@ -100,7 +121,7 @@ class UfscScraper:
             if not (10 >= float(grades[i]) >= 0):
                 raise ValueError
             new_history.append([current_classes_credits[i] * 18,
-                                float(grades[i])])
+                                self.round_ufsc(float(grades[i]))])
 
         new_indexes = list(
             map(
