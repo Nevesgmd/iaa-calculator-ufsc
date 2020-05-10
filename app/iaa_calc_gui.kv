@@ -11,6 +11,9 @@ PageManager:
     size_hint: 0.6, 0.07
     background_normal: 'atlas://data/images/defaulttheme/textinput_active'
     border: (4, 4, 4, 4)
+    multiline: False
+    write_tab: False
+    cursor_color: (44/255, 44/255, 44/255, 0.8)
 
 <Button>:
     font_size: 0.48 * self.height
@@ -33,17 +36,11 @@ PageManager:
         TextInput:
             id: login
             pos_hint: {'x': 0.2, 'top':0.47}
-            multiline: False
-            write_tab: False
-            cursor_color: (44/255, 44/255, 44/255, 0.8)
             hint_text: 'idUFSC, Matrícula, E-mail, CPF, ou Passaporte'
 
         TextInput:
             id: password
             pos_hint: {'x': 0.2, 'top':0.4}
-            multiline: False
-            write_tab: False
-            cursor_color: (44/255, 44/255, 44/255, 0.8)
             password: True
             hint_text: 'Senha'
         Button:

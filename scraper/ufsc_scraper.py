@@ -1,8 +1,5 @@
 from __future__ import absolute_import, division
-from math import trunc
 from re import compile as _compile
-from getpass import getpass
-
 import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 from robobrowser import RoboBrowser
@@ -88,24 +85,13 @@ class UfscScraper:
         decimal = grade % 1
         if decimal < 0.25:
             return float(int(grade))
-        if 0.25 <= decimal < 0.75:
+        elif 0.25 <= decimal < 0.75:
             return float(int(grade) + 0.5)
         return float(int(grade) + 1)
 
     @staticmethod
     def ia_calc(grades):
         return round(sum(h * g for h, g in grades) / sum(h for h, _ in grades), 2)
-
-    @staticmethod
-    def loop_input(msg, _type, cond):
-        while True:
-            try:
-                var = _type(input(msg))
-                if cond(var):
-                    raise ValueError
-                return var
-            except ValueError:
-                pass
 
     def new_indexes(self, current_grades, current_classes_credits, grades):
         new_history = current_grades[:]
