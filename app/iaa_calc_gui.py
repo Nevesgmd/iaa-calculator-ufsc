@@ -1,3 +1,5 @@
+# -- coding: UTF-8 --
+
 # Imports
 from scraper.ufsc_scraper import UfscScraper
 from student.student import Student
@@ -60,7 +62,8 @@ class NewIndicesPage(Screen):
     pass
 
 
-kv = Builder.load_file("app/iaa_calc_gui.kv")
+with open('app/iaa_calc_gui.kv', encoding='utf-8') as f:
+    kv = Builder.load_string(f.read())
 
 
 class IaaCalculator(App):
