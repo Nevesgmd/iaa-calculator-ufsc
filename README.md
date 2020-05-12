@@ -5,9 +5,10 @@ Após alguns comentários de estudantes reclamando sobre o cálculo do futuro IA
 # Sumário
 1. [Padrão de Commits](#commits)
 2. [Rodando o Programa](#running)
-3. [Agradecimentos](#agradecimentos)
-4. [Contato](#contact)
-5. [Licença](#license)
+3. [Não Consigo Instalar as Bibliotecas Necessárias](#kivyerror)
+4. [Agradecimentos](#agradecimentos)
+5. [Contato](#contact)
+6. [Licença](#license)
 
 
 <a name="commits"></a>
@@ -25,6 +26,14 @@ Após baixar/clonar todos os arquivos deste repositório em seu computador, siga
 2. Instale os requisitos do projeto com a seguinte linha de código `pip install -r requirements.txt`.
 3. Rode o programa através do arquivo **iaa_calculator.py** com o seguinte código `python3 iaa_calculator.py`
 
+<a name="kivyerror"></a>
+## Não Consigo Instalar as Bibliotecas Necessárias
+Se você está tentando baixar as bibliotecas necessárias através do arquivo **requirements.txt** e não está conseguindo, muito provavelmente isto está acontecendo devido à versão do Python instalado em seu computador.  
+Infelizmente, o Kivy ainda não suporta versões do Python posteriores à **3.8**. No entanto, solucionar este problema é bem simples:
+1. Acesse o diretório do projeto usando o `terminal` (MacOS, Linux) ou o `cmd` (Windows).
+2. Instale Kivy com a seguinte linha de código: `pip install kivy[base] kivy_examples --pre --extra-index-url https://kivy.org/downloads/simple/`
+3. Instale Robobrowser: `pip install robobrowser`
+3. Instale Werkzeug: `pip install werkzeug`
  
 <a name="agradecimentos"></a>
 ## Agradecimentos
