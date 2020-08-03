@@ -6,9 +6,10 @@ Após alguns comentários de estudantes reclamando sobre o cálculo do futuro IA
 1. [Padrão de Commits](#commits)
 2. [Rodando o Programa](#running)
 3. [Não Consigo Instalar as Bibliotecas Necessárias](#kivyerror)
-4. [Agradecimentos](#agradecimentos)
-5. [Contato](#contact)
-6. [Licença](#license)
+4. [Interface](#screens)
+5. [Agradecimentos](#agradecimentos)
+6. [Contato](#contact)
+7. [Licença](#license)
 
 
 <a name="commits"></a>
@@ -34,7 +35,33 @@ Infelizmente, o Kivy ainda não suporta versões do Python posteriores à **3.8*
 2. Instale Kivy com a seguinte linha de código: `pip install kivy[base] kivy_examples --pre --extra-index-url https://kivy.org/downloads/simple/`
 3. Instale Robobrowser: `pip install robobrowser`
 3. Instale Werkzeug: `pip install werkzeug`
- 
+
+<a name="screens"></a>
+## Interface  
+1. Página de Login  
+
+
+![Login Page](images/login_screen.png)  
+2. Página de Login Inválido  
+
+
+![Invalid Login Page](images/invalid_login_screen.png)  
+3. Página de Usuário já Formado  
+
+
+![Graduated User Page](images/graduated_user_screen.png)  
+4. Página Inicial Borrada (ocultando índices do estudante)  
+
+
+![Home Page Blurred](images/home_screen_blurred.jpg)  
+5. Página de Notas Informadas Inválidas  
+
+
+![Invalid Grades Page](images/invalid_grades_screen.png)  
+6. Página de Notas Calculadas Borrada (ocultando notas calculadas)  
+
+
+![Calculated Indices Page Blurred](images/calculated_indices_screen_blurred.jpg)  
 <a name="agradecimentos"></a>
 ## Agradecimentos
 Gostaria de agradecer ao Gustavo Zambonin, pois seu [script de calculo do IAA](https://github.com/zambonin/ufsc-iaa-calc) foi inspiração para este projeto e ao Tim do canal [Tech With Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg) pela  disponibilização gratuita de um curso introdutório ao Kivy.
